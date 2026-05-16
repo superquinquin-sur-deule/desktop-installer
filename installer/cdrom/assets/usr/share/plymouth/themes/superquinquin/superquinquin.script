@@ -1,0 +1,18 @@
+// --- Background ---
+Window.SetBackgroundTopColor(1, 1, 1);
+Window.SetBackgroundBottomColor(1, 1, 1);
+
+// --- Screen ---
+SCREEN_WIDTH  = Window.GetWidth();
+SCREEN_HEIGHT = Window.GetHeight();
+
+// --- Layout ---
+TEXT_ZONE_WIDTH  = SCREEN_WIDTH / 4;
+TEXT_ZONE_X      = (SCREEN_WIDTH - TEXT_ZONE_WIDTH) / 2;
+
+// --- Logo ---
+logo_image = Image("splash.png");
+logo_sprite = Sprite(logo_image);
+logo_sprite.SetX((SCREEN_WIDTH - logo_image.GetWidth()) / 2);
+logo_sprite.SetY((SCREEN_HEIGHT - logo_image.GetHeight()) / 2);
+logo_sprite.SetZ(-100);
