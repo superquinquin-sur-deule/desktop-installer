@@ -16,6 +16,4 @@ in-target systemctl enable systemd-resolved systemd-networkd
 in-target apt-get purge -y ifupdown
 
 in-target plymouth-set-default-theme superquinquin
-in-target systemctl mask getty@tty1.service
-
 in-target update-grub

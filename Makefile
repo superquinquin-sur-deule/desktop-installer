@@ -1,4 +1,4 @@
-ISOBASEFILE  = debian-13.4.0-amd64-netinst.iso
+ISOBASEFILE  = debian-13.5.0-amd64-netinst.iso
 ISOPRESEED   = preseed-$(ISOBASEFILE)
 ISOLABEL     = DESKTOP
 TESTVMDISK   = test-disk.qcow2
@@ -52,7 +52,7 @@ test-boot: OUTPUT ?= 1
 test-boot: $(TESTVMDISK)
 	qemu-system-x86_64 \
 	    -enable-kvm -cpu host -smp 4 -m 1G \
-		-device virtio-net-pci,netdev=net0 \
+	    -device virtio-net-pci,netdev=net0 \
 	    -netdev user,id=net0,hostfwd=tcp::2222-:22 \
 	    -cdrom $(ISOPRESEED) \
 	    -drive file=$(TESTVMDISK),format=qcow2,if=virtio,cache=unsafe
