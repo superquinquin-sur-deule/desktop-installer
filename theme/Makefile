@@ -1,6 +1,5 @@
 640_480   = installer/cdrom/isolinux/splash.png
 320_320   = installer/cdrom/boot/grub/themes/splash.png
-320_320  += installer/cdrom/assets/usr/share/plymouth/themes/superquinquin/splash.png
 
 SPLASH = $(320_320) $(640_480)
 THEMES = theme/splash-320x320.png theme/splash-640x480.png
