@@ -2,8 +2,8 @@ ISOBASEFILE  = debian-13.5.0-amd64-netinst.iso
 ISOPRESEED   = preseed-$(ISOBASEFILE)
 ISOLABEL     = DESKTOP
 TESTVMDISK   = test-disk.qcow2
-CDROM        = installer/cdrom
-INITRD       = installer/initrd
+CDROM        = cdrom
+INITRD       = initrd
 INSTALLFILES = $(shell find $(CDROM) -type f -not -name Makefile -not -name .gitignore)
 
 build: $(ISOPRESEED)
