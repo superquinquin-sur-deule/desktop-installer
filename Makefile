@@ -4,7 +4,7 @@ ISOLABEL     = DESKTOP
 TESTVMDISK   = test-disk.qcow2
 CDROM        = installer/cdrom
 INITRD       = installer/initrd
-INSTALLFILES = $(shell find $(CDROM) -type f -not -name Makefile -not -name .gitkeep -not -name .gitignore)
+INSTALLFILES = $(shell find $(CDROM) -type f -not -name Makefile -not -name .gitignore)
 INITRDFILES  = $(shell find $(INITRD) -type f)
 
 $(ISOPRESEED): .xorrisorc
