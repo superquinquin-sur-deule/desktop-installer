@@ -1,4 +1,4 @@
-PKGDIR = $(INSTALLDIR)/cdrom/packages
+PKGDIR = $(CDROM)/packages
 SRC    = $(wildcard $(PKGDIR)/*.deb.src)
 PKG    = $(SRC:.deb.src=.deb)
 

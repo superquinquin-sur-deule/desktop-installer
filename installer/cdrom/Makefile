@@ -1,4 +1,3 @@
-CDROM  = installer/cdrom
 SVGURL = https://www.superquinquin.fr/wp-content/themes/superquinquin/img/superquinquin_logo_deule.svg
 
 $(CDROM)/isolinux/splash.png:
