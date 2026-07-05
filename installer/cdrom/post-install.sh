@@ -14,4 +14,7 @@ in-target chmod 440 /etc/sudoers.d/ansible
 in-target systemctl enable dbus
 in-target systemctl enable systemd-resolved systemd-networkd
 in-target apt-get purge -y ifupdown
+
+in-target plymouth-set-default-theme superquinquin
+in-target update-initramfs -u
 in-target update-grub
