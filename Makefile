@@ -5,36 +5,12 @@ TESTVMDISK   = test-disk.qcow2
 CDROM        = installer/cdrom
 INITRD       = installer/initrd
 INSTALLFILES = $(shell find $(CDROM) -type f -not -name Makefile -not -name .gitignore)
-INITRDFILES  = $(shell find $(INITRD) -type f)
 
-$(ISOPRESEED): .xorrisorc
-	rm -f $(ISOPRESEED)
-	xorriso -no_rc -options_from_file $<
-
+build: $(ISOPRESEED)
 include $(shell find . -mindepth 2 -name Makefile)
 
-.PHONY: usb
-usb:
-	@test -n "$(DEVICE)" || (echo "Error: DEVICE is undefined. Usage: make DEVICE=/dev/sdX usb"; exit 1)
-	@sudo lsblk $(DEVICE)
-	@echo
-	@echo -n "Are you sure you want to wipe $(DEVICE)? [y/N] " && read ans && [ $${ans:-N} = y ] || [ $${ans:-N} = Y ]
-	@sudo dd if=$(ISOPRESEED) of=$(DEVICE) bs=4M status=progress oflag=sync
-
-.INTERMEDIATE: initrd_original.gz initrd_patch.gz initrd_final.gz .xorrisorc
-
-initrd_original.gz: $(ISOBASEFILE)
-	osirrox -indev $< -extract /install.amd/gtk/initrd.gz $@
-
-initrd_patch.gz: $(INITRDFILES)
-	cd $(INITRD) && \
-	    printf '%s\n' $(patsubst $(INITRD)/%,%,$^) \
-	    | cpio -H newc -o | gzip -9 > $(CURDIR)/$@
-
-initrd_final.gz: initrd_original.gz initrd_patch.gz
-	cat $^ > $@
-
-.xorrisorc: initrd_final.gz $(INSTALLFILES)
+.INTERMEDIATE: .xorrisorc
+.xorrisorc: $(INITRD)/initrd.gz $(INSTALLFILES)
 	@echo "-indev $(ISOBASEFILE)" > $@
 	@echo "-outdev $(ISOPRESEED)" >> $@
 	@echo "-map $< /install.amd/gtk/initrd.gz" >> $@
@@ -43,6 +19,18 @@ initrd_final.gz: initrd_original.gz initrd_patch.gz
 	@echo "-volid $(ISOLABEL)" >> $@
 	@echo "-boot_image any replay" >> $@
 	@echo "-compliance no_emul_toc" >> $@
+
+$(ISOPRESEED): .xorrisorc
+	rm -f $(ISOPRESEED)
+	xorriso -no_rc -options_from_file $<
+
+.PHONY: usb
+usb:
+	@test -n "$(DEVICE)" || (echo "Error: DEVICE is undefined. Usage: make DEVICE=/dev/sdX usb"; exit 1)
+	@sudo lsblk $(DEVICE)
+	@echo
+	@echo -n "Are you sure you want to wipe $(DEVICE)? [y/N] " && read ans && [ $${ans:-N} = y ] || [ $${ans:-N} = Y ]
+	@sudo dd if=$(ISOPRESEED) of=$(DEVICE) bs=4M status=progress oflag=sync
 
 $(TESTVMDISK):
 	qemu-img create -f qcow2 $@ 20G
