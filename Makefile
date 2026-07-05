@@ -2,10 +2,10 @@ ISOBASEFILE  = debian-13.5.0-amd64-netinst.iso
 ISOPRESEED   = preseed-$(ISOBASEFILE)
 ISOLABEL     = DESKTOP
 TESTVMDISK   = test-disk.qcow2
-INSTALLDIR   = installer
-ASSETS       = $(INSTALLDIR)/cdrom/assets
-INSTALLFILES = $(shell find $(INSTALLDIR)/cdrom -type f -not -name Makefile -not -name .gitkeep -not -name .gitignore)
-INITRDFILES  = $(shell find $(INSTALLDIR)/initrd -type f)
+CDROM        = installer/cdrom
+INITRD       = installer/initrd
+INSTALLFILES = $(shell find $(CDROM) -type f -not -name Makefile -not -name .gitkeep -not -name .gitignore)
+INITRDFILES  = $(shell find $(INITRD) -type f)
 
 $(ISOPRESEED): .xorrisorc
 	rm -f $(ISOPRESEED)
@@ -27,8 +27,8 @@ initrd_original.gz: $(ISOBASEFILE)
 	osirrox -indev $< -extract /install.amd/gtk/initrd.gz $@
 
 initrd_patch.gz: $(INITRDFILES)
-	cd $(INSTALLDIR)/initrd && \
-	    printf '%s\n' $(patsubst $(INSTALLDIR)/initrd/%,%,$^) \
+	cd $(INITRD) && \
+	    printf '%s\n' $(patsubst $(INITRD)/%,%,$^) \
 	    | cpio -H newc -o | gzip -9 > $(CURDIR)/$@
 
 initrd_final.gz: initrd_original.gz initrd_patch.gz
@@ -39,7 +39,7 @@ initrd_final.gz: initrd_original.gz initrd_patch.gz
 	@echo "-outdev $(ISOPRESEED)" >> $@
 	@echo "-map $< /install.amd/gtk/initrd.gz" >> $@
 	@$(foreach l, $(filter-out $<, $^), \
-	    echo "-map $(l) $(patsubst $(INSTALLDIR)/cdrom/%,/%,$(l))" >> $@;)
+	    echo "-map $(l) $(patsubst $(CDROM)/%,/%,$(l))" >> $@;)
 	@echo "-volid $(ISOLABEL)" >> $@
 	@echo "-boot_image any replay" >> $@
 	@echo "-compliance no_emul_toc" >> $@
