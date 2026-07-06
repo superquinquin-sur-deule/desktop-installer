@@ -42,7 +42,7 @@ test-boot: $(TESTVMDISK)
 	    -enable-kvm -cpu host -smp 4 -m 1G \
 	    -device virtio-net-pci,netdev=net0 \
 	    -netdev user,id=net0,hostfwd=tcp::2222-:22 \
-	    -cdrom $(ISOPRESEED) \
+	    -cdrom $(ISOPRESEED) $(if $(OVMF),-bios $(OVMF)) \
 	    -drive file=$(TESTVMDISK),format=qcow2,if=virtio,cache=unsafe \
 	    -device virtio-vga,max_outputs=$(OUTPUT),id=video0 \
 	    -display gtk,gl=on,show-tabs=on -vga none
