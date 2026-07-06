@@ -53,6 +53,12 @@ $ make OUTPUT=2 test-boot      # emulate a dual-screen (default: 1)
 $ make --always-make test-boot # fresh install
 ```
 
+UEFI boot requires OVMF library (depend on your workstation).
+
+```console
+$ make OVMF=/usr/share/edk2/x64/OVMF.4m.fd test-boot
+```
+
 Connect to the VM.
 
 ```console
