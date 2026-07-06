@@ -49,6 +49,7 @@ Legacy Boot on a volatile 20GB-sized qcow file.
 
 ```console
 $ make test-boot               # start the VM
+$ make OUTPUT=2 test-boot      # emulate a dual-screen (default: 1)
 $ make --always-make test-boot # fresh install
 ```
 
