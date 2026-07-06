@@ -3,7 +3,7 @@
 # Brun logo    : #4a3931
 # Blanc cassé  : #f2f2f2
 
-style "kiosk-default" {
+style "installer-default" {
     bg[NORMAL]      = "#f2f2f2"
     bg[ACTIVE]      = "#f6d443"
     bg[PRELIGHT]    = "#edc621"
@@ -25,11 +25,11 @@ style "kiosk-default" {
     text[ACTIVE]    = "#4a3931"
 }
 
-widget_class "*" style "kiosk-default"
+widget_class "*" style "installer-default"
 
-style "kiosk-button" {
+style "installer-button" {
     bg[NORMAL]   = "#f6d443"
     fg[NORMAL]   = "#4a3931"
 }
 
-widget_class "*GtkButton*" style "kiosk-button"
+widget_class "*GtkButton*" style "installer-button"

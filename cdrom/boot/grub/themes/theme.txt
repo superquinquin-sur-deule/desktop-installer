@@ -1,4 +1,4 @@
-title-text:  "Kiosk Installer"
+title-text:  "Unattended Installer"
 title-color: "#4a3931"
 
 desktop-color: "#ffffff"
